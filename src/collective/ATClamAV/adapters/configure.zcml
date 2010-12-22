@@ -1,0 +1,11 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="collective.ATClamAV">
+
+    <include package="archetypes.schemaextender" />
+
+    <adapter
+      name="collective.ATClamAV.file"
+      factory=".atfile.VirusFreeATFileExtender" />
+
+</configure>

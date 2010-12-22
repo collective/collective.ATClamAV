@@ -37,7 +37,7 @@ setup(name='collective.ATClamAV',
       ),
       install_requires=[
           'setuptools',
-          'archetypes.schemaextender >=1.0b1'
+          'archetypes.schemaextender'
           # -*- Extra requirements: -*-
       ],
       entry_points="""

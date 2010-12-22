@@ -5,9 +5,7 @@
     i18n_domain="collective.ATClamAV">
 
     <utility factory=".clamAVScanner.ClamAVScanner" />
-    <include package="archetypes.schemaextender" />
-    <adapter factory=".adapters.VirusFreeATFileExtender" />
-
+    <include package=".adapters" />
     <include package=".browser" />
 
     <genericsetup:registerProfile
