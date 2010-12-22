@@ -1,20 +1,22 @@
-import unittest
+import unittest2 as unittest
 from StringIO import StringIO
-from Products.PloneTestCase.PloneTestCase import default_user
+from collective.ATClamAV.testing import EICAR
 from collective.ATClamAV.tests.base import ATClamAVFunctionalTestCase
+from collective.ATClamAV.tests.base import get_browser
 
 
 class TestIntegration(ATClamAVFunctionalTestCase):
 
     def test_atvirusfile(self):
         # Test if a virus-infected file gets caught by the validator
-        self.setRoles('Manager')
-        browser = self.getBrowser()
-        browser.open('http://nohost/plone/Members/%s' % default_user)
+        #self.setRoles('Manager')
+        portal = self.layer['portal']
+        browser = get_browser(self.layer['app'])
+        browser.open(portal.absolute_url()+'/virus-folder')
         browser.getLink(url='createObject?type_name=File').click()
         control = browser.getControl(name='file_file')
         control.filename = 'virus.txt'
-        control.value = StringIO(self.EICAR)
+        control.value = StringIO(EICAR)
         browser.getControl('Save').click()
 
         self.failIf('Eicar-Test-Signature FOUND' not in browser.contents)

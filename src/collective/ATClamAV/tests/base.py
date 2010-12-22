@@ -1,33 +1,33 @@
-from Products.PloneTestCase import PloneTestCase
-from Products.Five.testbrowser import Browser
-from collective.ATClamAV.tests.layer import ATClamAVLayer
+import unittest2 as unittest
+from plone.testing.z2 import Browser
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_PASSWORD
+from collective.ATClamAV import testing
 
-PloneTestCase.setupPloneSite()
+
+def get_browser(app, loggedIn=True):
+    browser = Browser(app)
+    if loggedIn:
+        auth = 'Basic %s:%s' % (TEST_USER_ID, TEST_USER_PASSWORD)
+        browser.addHeader('Authorization', auth)
+    return browser
 
 
-class ATClamAVTestCase(PloneTestCase.PloneTestCase):
-    """We use this base class for all the tests in this package.
+class ATClamAVIntegrationTestCase(unittest.TestCase):
+    """We use this class for integration tests.
     """
-    layer = ATClamAVLayer
-    EICAR = 'WDVPIVAlQEFQWzRcUFpYNTQoUF4pN0NDKTd9JEVJQ0FSLVNUQU5E'.decode('base64') \
-        +'QVJELUFOVElWSVJVUy1URVNU\nLUZJTEUhJEgrSCo=\n'.decode('base64')
+    layer = testing.ATCLAMAV_INTEGRATION_TESTING
 
 
-class ATClamAVFunctionalTestCase(PloneTestCase.FunctionalTestCase):
-    """We use this class for functional integration tests.
+class ATClamAVFunctionalTestCase(unittest.TestCase):
+    """We use this class for functional tests.
     """
-    layer = ATClamAVLayer
-    EICAR = 'WDVPIVAlQEFQWzRcUFpYNTQoUF4pN0NDKTd9JEVJQ0FSLVNUQU5E'.decode('base64') \
-        +'QVJELUFOVElWSVJVUy1URVNU\nLUZJTEUhJEgrSCo=\n'.decode('base64')
+    layer = testing.ATCLAMAV_FUNCTIONAL_TESTING
 
-    def getCredentials(self):
-        return '%s:%s' % (PloneTestCase.default_user,
-            PloneTestCase.default_password)
-
-    def getBrowser(self, loggedIn=True):
+    def get_browser(app, loggedIn=True):
         """ instantiate and return a testbrowser for convenience """
-        browser = Browser()
+        browser = Browser(app)
         if loggedIn:
-            auth = 'Basic %s' % self.getCredentials()
+            auth = 'Basic %s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD)
             browser.addHeader('Authorization', auth)
         return browser

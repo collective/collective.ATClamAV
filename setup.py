@@ -29,15 +29,10 @@ setup(name='collective.ATClamAV',
       include_package_data=True,
       platforms='Any',
       zip_safe=False,
-      extras_require=dict(
-          test=[
-            'zope.testing',
-            'Products.PloneTestCase',
-          ]
-      ),
       install_requires=[
           'setuptools',
-          'archetypes.schemaextender'
+          'archetypes.schemaextender',
+          'plone.app.testing',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

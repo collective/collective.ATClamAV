@@ -2,14 +2,13 @@ import unittest
 from zope.component import getUtility
 
 from collective.ATClamAV.interfaces import IAVScanner
-from collective.ATClamAV.tests.base import ATClamAVTestCase
+from collective.ATClamAV.testing import EICAR
+from collective.ATClamAV.tests.base import ATClamAVIntegrationTestCase
 
 
-class TestScanner(ATClamAVTestCase):
-    """
-    """
+class TestScanner(ATClamAVIntegrationTestCase):
 
-    def afterSetUp(self):
+    def setUp(self):
         self.scanner = getUtility(IAVScanner)
 
     def test_ping(self):
@@ -31,13 +30,13 @@ class TestScanner(ATClamAVTestCase):
         """
         # Try a virus through the net...
         self.assertEquals(
-            self.scanner.scanBuffer(self.EICAR, type='net'),
+            self.scanner.scanBuffer(EICAR, type='net'),
             'Eicar-Test-Signature FOUND')
 
         # Try a virus through sockets...
         self.assertEquals(
             self.scanner.scanBuffer(
-                self.EICAR, type='socket',
+                EICAR, type='socket',
                 socketpath='/tmp/clamd.socket'),
             'Eicar-Test-Signature FOUND')
 
