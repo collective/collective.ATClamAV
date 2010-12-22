@@ -1,0 +1,20 @@
+Changelog
+=========
+
+1.0 - Unreleased
+-------------------
+
+- pep-8
+  [ggozad]
+
+1.0b2
+-------------------
+
+- Added support for local UNIX sockets
+  [ggozad]
+
+1.0b1 
+-------------------
+
+- Initial release
+  [ggozad]

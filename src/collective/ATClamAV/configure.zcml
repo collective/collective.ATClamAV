@@ -1,0 +1,20 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="collective.ATClamAV">
+
+    <utility factory=".clamAVScanner.ClamAVScanner" />
+    <include package="archetypes.schemaextender" />
+    <adapter factory=".adapters.VirusFreeATFileExtender" />
+    <include package=".browser" />
+
+    <genericsetup:registerProfile
+      name="default"
+      title="collective.ATClamAV: Clam antivirus AT validator"
+      directory="profiles/default"
+      description="Extension profile for collective.ATClamAV."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>
