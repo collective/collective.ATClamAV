@@ -23,11 +23,3 @@ class ATClamAVFunctionalTestCase(unittest.TestCase):
     """We use this class for functional tests.
     """
     layer = testing.ATCLAMAV_FUNCTIONAL_TESTING
-
-    def get_browser(app, loggedIn=True):
-        """ instantiate and return a testbrowser for convenience """
-        browser = Browser(app)
-        if loggedIn:
-            auth = 'Basic %s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD)
-            browser.addHeader('Authorization', auth)
-        return browser
