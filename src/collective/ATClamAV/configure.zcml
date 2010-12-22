@@ -7,6 +7,7 @@
     <utility factory=".clamAVScanner.ClamAVScanner" />
     <include package="archetypes.schemaextender" />
     <adapter factory=".adapters.VirusFreeATFileExtender" />
+
     <include package=".browser" />
 
     <genericsetup:registerProfile

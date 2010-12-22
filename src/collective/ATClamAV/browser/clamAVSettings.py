@@ -44,18 +44,18 @@ class ClamAVControlPanelAdapter(SchemaAdapterBase):
 
     def set_clamav_socket(self, value):
         self.context._updateProperty('clamav_socket', value)
-    
+
     clamav_socket = property(get_clamav_socket,set_clamav_socket)
 
     # Host
     def get_clamav_host(self):
         return getattr(self.context,'clamav_host',"localhost")
-        
+
     def set_clamav_host(self, value):
         self.context._updateProperty('clamav_host', value)
 
     clamav_host = property(get_clamav_host,set_clamav_host)
-    
+
     # Port
     def get_clamav_port(self):
         return int(getattr(self.context,'clamav_port',"3310"))

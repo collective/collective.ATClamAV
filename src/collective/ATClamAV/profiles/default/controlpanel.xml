@@ -3,6 +3,7 @@
 
  <configlet title="ClamAV settings" action_id="ClamAVSettings"
     appId="collective.ATClamAV" category="Products" condition_expr=""
+    icon_expr="string:$portal_url/++resource++clamavicon"
     url_expr="string:${portal_url}/@@clamav_settings_controlpanel"
     visible="True">
   <permission>Manage portal</permission>
