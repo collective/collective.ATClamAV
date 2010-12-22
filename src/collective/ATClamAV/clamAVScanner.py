@@ -1,6 +1,14 @@
-from collective.ATClamAV.interfaces import IAVScanner
-from zope.interface import implements
 import socket
+from zope.interface import implements
+from collective.ATClamAV.interfaces import IAVScanner
+
+
+class ScanError(Exception):
+    """Generic exception for AV checks.
+    """
+
+    def __init__(self, message):
+        super(ScanError, self).__init__(message)
 
 
 class ClamAVScanner(object):
@@ -22,19 +30,19 @@ class ClamAVScanner(object):
             port = kwargs.get('port', 3310)
             s = self.__init_network_socket__(host, port)
         else:
-            raise 'ScanError', 'Invalid call to ping'
+            raise ScanError('Invalid call to ping')
 
         try:
             s.send('PING')
             result = s.recv(20000)
             s.close()
         except:
-            raise 'ScanError', 'Could not ping clamd server'
+            raise ScanError('Could not ping clamd server')
 
         if result=='PONG\n':
             return True
         else:
-            raise 'ScanError', 'Could not ping clamd server'
+            raise ScanError('Could not ping clamd server')
 
     def scanBuffer(self, buffer, type, **kwargs):
         """Scans a buffer for viruses
@@ -50,7 +58,7 @@ class ClamAVScanner(object):
             port = kwargs.get('port', 3310)
             s = self.__init_network_socket__(host, port)
         else:
-            raise 'ScanError', 'Invalid call to scanBuffer'
+            raise ScanError('Invalid call to scanBuffer')
 
         s.send('STREAM')
         sport = int(s.recv(200).strip().split(' ')[1])
@@ -61,7 +69,7 @@ class ClamAVScanner(object):
         n.close()
 
         if sended<len(buffer):
-            raise 'BufferTooLong'
+            raise ScanError('BufferTooLong')
 
         result='...'
         while result!='':
@@ -69,7 +77,7 @@ class ClamAVScanner(object):
             if len(result)>0:
                 virusname = result.strip().split(':')[1].strip()
                 if virusname[-5:]=='ERROR':
-                    raise 'ScanError', virusname
+                    raise ScanError(virusname)
         s.close()
         if virusname=='OK':
             return None
@@ -84,8 +92,8 @@ class ClamAVScanner(object):
         try:
             s.connect(filename)
         except socket.error:
-            raise 'ScanError', 'Could not reach clamd'\
-            ' using unix socket (%s)'%filename
+            raise ScanError('Could not reach clamd using unix socket (%s)' % \
+                            filename)
         return s
 
     def __init_network_socket__(self, host, port):
@@ -96,6 +104,6 @@ class ClamAVScanner(object):
         try:
             s.connect((host, port))
         except socket.error:
-            raise 'ScanError', 'Could not reach clamd' \
-            ' on network (%s:%s)' % (host, port)
+            raise ScanError('Could not reach clamd on network (%s:%s)' % \
+                            (host, port))
         return s
