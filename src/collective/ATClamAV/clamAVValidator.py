@@ -1,9 +1,9 @@
 from zope.interface import implements
-from Products.validation.interfaces.IValidator import IValidator
-from collective.ATClamAV.interfaces import IAVScanner
 from zope.component import getUtility
 from Products.CMFCore.interfaces import ISiteRoot
-
+from Products.validation.interfaces.IValidator import IValidator
+from collective.ATClamAV.interfaces import IAVScanner
+from collective.ATClamAV.clamAVScanner import ScanError
 
 class ClamAVValidator:
 
@@ -33,7 +33,7 @@ class ClamAVValidator:
                 else:
                     result = scanner.scanBuffer(content, 'socket',
                         socketpath=settings.clamav_socket)
-            except Exception:
+            except ScanError:
                 return "There was an error while checking the file " \
                 "for viruses: Please contact your system administrator."
 
@@ -43,5 +43,5 @@ class ClamAVValidator:
             else:
                 return 1
         else:
-            # if keeped existing file 'value' is a 'OFS.Image.File'
+            # if we keeped existing file
             return 1
