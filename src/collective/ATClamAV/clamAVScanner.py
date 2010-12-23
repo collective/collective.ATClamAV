@@ -21,14 +21,16 @@ class ClamAVScanner(object):
         """
 
         s = None
+        timeout = kwargs.get('timeout', 10.0)
         if type=='socket':
             socketpath = kwargs.get('socketpath', '/var/run/clamd')
-            s = self.__init_unix_socket__(socketpath)
+            s = self.__init_unix_socket__(filename=socketpath, timeout=timeout)
             host = 'localhost'
         elif type=='net':
             host = kwargs.get('host', 'localhost')
             port = kwargs.get('port', 3310)
-            s = self.__init_network_socket__(host, port)
+            s = self.__init_network_socket__(host=host, port=port,
+                                             timeout=timeout)
         else:
             raise ScanError('Invalid call to ping')
 
@@ -49,61 +51,83 @@ class ClamAVScanner(object):
         """
 
         s = None
+        timeout = kwargs.get('timeout', 120.0)
+
         if type=='socket':
             socketpath = kwargs.get('socketpath', '/var/run/clamd')
-            s = self.__init_unix_socket__(socketpath)
+            s = self.__init_unix_socket__(filename=socketpath, timeout=timeout)
             host = 'localhost'
         elif type=='net':
             host = kwargs.get('host', 'localhost')
             port = kwargs.get('port', 3310)
-            s = self.__init_network_socket__(host, port)
+            s = self.__init_network_socket__(host=host, port=port,
+                                             timeout=timeout)
         else:
             raise ScanError('Invalid call to scanBuffer')
 
-        s.send('STREAM')
-        sport = int(s.recv(200).strip().split(' ')[1])
-        n=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        n.connect((host, sport))
+        try:
+            s.send('STREAM')
+            sport = int(s.recv(200).strip().split(' ')[1])
+        except (socket.error, socket.timeout):
+            s.close()
+            raise ScanError('Error communicating with clamd')
 
-        sended = n.send(buffer)
-        n.close()
+        n=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        n.settimeout(timeout)
+
+        try:
+            n.connect((host, sport))
+            sended = n.send(buffer)
+        except (socket.error, socket.timeout):
+            s.close()
+            raise ScanError('Error communicating with clamd')
+        finally:
+            n.close()
 
         if sended<len(buffer):
             raise ScanError('BufferTooLong')
 
         result='...'
-        while result!='':
-            result = s.recv(20000)
-            if len(result)>0:
-                virusname = result.strip().split(':')[1].strip()
-                if virusname[-5:]=='ERROR':
-                    raise ScanError(virusname)
-        s.close()
+        try:
+            while result!='':
+                result = s.recv(20000)
+                if len(result)>0:
+                    virusname = result.strip().split(':')[1].strip()
+                    if virusname[-5:]=='ERROR':
+                        raise ScanError(virusname)
+        except (socket.error, socket.timeout):
+            raise ScanError('Error communicating with clamd')
+        finally:
+            s.close()
+
         if virusname=='OK':
             return None
         else:
             return virusname
 
-    def __init_unix_socket__(self, filename="/var/run/clamd"):
+    def __init_unix_socket__(self, filename="/var/run/clamd", timeout=120.0):
         """Initialize scanner to use clamd unix local socket
         """
 
         s=socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        s.settimeout(timeout)
         try:
             s.connect(filename)
-        except socket.error:
+        except (socket.error, socket.timeout):
             raise ScanError('Could not reach clamd using unix socket (%s)' % \
                             filename)
         return s
 
-    def __init_network_socket__(self, host, port):
+    def __init_network_socket__(self, host="localhost", port=3310,
+                                timeout=120.0):
         """Initialize scanner to use clamd network socket
         """
 
         s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(timeout)
         try:
             s.connect((host, port))
-        except socket.error:
+        except (socket.error, socket.timeout):
             raise ScanError('Could not reach clamd on network (%s:%s)' % \
                             (host, port))
         return s

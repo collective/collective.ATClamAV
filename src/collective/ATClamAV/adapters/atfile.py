@@ -31,8 +31,7 @@ class VirusFreeATFileExtender(object):
                                 ('isVirusFree', V_REQUIRED)),
                   widget = FileWidget(description='',
                                       label=_(u'label_file', default=u'File'),
-                                      show_content_type=False)
-        ),
+                                      show_content_type=False)),
     ]
 
     def __init__(self, context):

@@ -27,25 +27,27 @@ class IAVScannerSettings(Interface):
 
     clamav_host = schema.ASCIILine(title=_(u"Scanner host"),
         description=_(u"If connected to clamd through the network," \
-        " the host running the antivirus server."),
+        " the host running clamd."),
         default = 'localhost',
         required = True)
 
     clamav_port = schema.Int(title=_(u"Scanner port"),
         description=_(u"If connected to clamd through the network," \
-        " the port on which the antivirus server listens."),
+        " the port on which clamd listens."),
         default=3310,
+        required = True)
+
+    clamav_timeout = schema.Int(title=_(u"Timeout"),
+        description=_(u"The timeout in seconds for communication with" \
+        " clamd."),
+        default=120,
         required = True)
 
 
 class IAVScanner(Interface):
-    """
-    """
 
     def ping():
-        """
-        """
+        pass
 
     def scanBuffer(buffer):
-        """
-        """
+        pass

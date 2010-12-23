@@ -5,6 +5,7 @@ from Products.validation.interfaces.IValidator import IValidator
 from collective.ATClamAV.interfaces import IAVScanner
 from collective.ATClamAV.clamAVScanner import ScanError
 
+
 class ClamAVValidator:
 
     implements(IValidator)
@@ -29,10 +30,12 @@ class ClamAVValidator:
                     result = scanner.scanBuffer(
                         content, 'net',
                         host=settings.clamav_host,
-                        port=int(settings.clamav_port))
+                        port=int(settings.clamav_port),
+                        timeout=float(settings.clamav_timeout))
                 else:
                     result = scanner.scanBuffer(content, 'socket',
-                        socketpath=settings.clamav_socket)
+                        socketpath=settings.clamav_socket,
+                        timeout=float(settings.clamav_timeout))
             except ScanError:
                 return "There was an error while checking the file " \
                 "for viruses: Please contact your system administrator."
