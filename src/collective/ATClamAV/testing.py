@@ -11,6 +11,7 @@ from plone.app.testing import setRoles
 from collective.ATClamAV.interfaces import IAVScanner
 from collective.ATClamAV.clamAVScanner import ScanError
 
+
 EICAR = """
     WDVPIVAlQEFQWzRcUFpYNTQoUF4pN0NDKTd9JEVJQ0FSLVNUQU5E
     QVJELUFOVElWSVJVUy1URVNU\nLUZJTEUhJEgrSCo=\n""".decode('base64')
@@ -22,23 +23,15 @@ class MockAVScanner(object):
 
     implements(IAVScanner)
 
-    def __init__(self):
-        self.replyToPing = True
-
-    def setup(self, replyToPing=True):
-        self.replyToPing=replyToPing
-
     def ping(self, type, **kwargs):
         """
         """
-        if not self.replyToPing:
-            raise ScanError('Could not ping clamd server')
         return True
 
     def scanBuffer(self, buffer, type, **kwargs):
         """
         """
-        if buffer == EICAR:
+        if EICAR in buffer:
             return 'Eicar-Test-Signature FOUND'
         return None
 

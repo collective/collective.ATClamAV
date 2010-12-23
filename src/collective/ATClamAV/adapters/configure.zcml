@@ -8,4 +8,8 @@
       name="collective.ATClamAV.file"
       factory=".atfile.VirusFreeATFileExtender" />
 
+    <adapter
+      name="collective.ATClamAV.image"
+      factory=".atimage.VirusFreeATImageExtender" />
+
 </configure>
