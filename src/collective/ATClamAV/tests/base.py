@@ -16,10 +16,22 @@ def get_browser(app, loggedIn=True):
 class ATClamAVIntegrationTestCase(unittest.TestCase):
     """We use this class for integration tests.
     """
-    layer = testing.ATCLAMAV_INTEGRATION_TESTING
+    layer = testing.AV_INTEGRATION_TESTING
 
 
 class ATClamAVFunctionalTestCase(unittest.TestCase):
     """We use this class for functional tests.
     """
-    layer = testing.ATCLAMAV_FUNCTIONAL_TESTING
+    layer = testing.AV_FUNCTIONAL_TESTING
+
+
+class ATClamAVMockIntegrationTestCase(unittest.TestCase):
+    """We use this class for integration tests.
+    """
+    layer = testing.AVMOCK_INTEGRATION_TESTING
+
+
+class ATClamAVMockFunctionalTestCase(unittest.TestCase):
+    """We use this class for functional tests.
+    """
+    layer = testing.AVMOCK_FUNCTIONAL_TESTING

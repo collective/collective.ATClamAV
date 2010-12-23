@@ -1,17 +1,15 @@
 import unittest2 as unittest
 from StringIO import StringIO
 from collective.ATClamAV.testing import EICAR
-from collective.ATClamAV.tests.base import ATClamAVFunctionalTestCase
-from collective.ATClamAV.tests.base import get_browser
+from collective.ATClamAV.tests import base
 
-
-class TestIntegration(ATClamAVFunctionalTestCase):
+class TestIntegration(base.ATClamAVMockFunctionalTestCase):
 
     def test_atvirusfile(self):
         # Test if a virus-infected file gets caught by the validator
         #self.setRoles('Manager')
         portal = self.layer['portal']
-        browser = get_browser(self.layer['app'])
+        browser = base.get_browser(self.layer['app'])
         browser.open(portal.absolute_url()+'/virus-folder')
         browser.getLink(url='createObject?type_name=File').click()
         control = browser.getControl(name='file_file')

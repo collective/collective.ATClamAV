@@ -7,6 +7,12 @@ from collective.ATClamAV.tests.base import ATClamAVIntegrationTestCase
 
 
 class TestScanner(ATClamAVIntegrationTestCase):
+    """Integration test for ATClamAV. This testcase communicates with
+    clamd, so you need it installed. Provide the -a2 flag to testrunner
+    to include it.
+    """
+
+    level = 2 # Only run on level 2...
 
     def setUp(self):
         self.scanner = getUtility(IAVScanner)
