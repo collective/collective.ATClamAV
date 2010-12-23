@@ -1,18 +1,49 @@
+from zope.interface import implements
+from zope.component import getGlobalSiteManager
 from zope.configuration import xmlconfig
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
-from plone.app.testing import IntegrationTesting, FunctionalTesting
+from plone.app.testing import IntegrationTesting
+from plone.app.testing import FunctionalTesting
 from plone.app.testing import applyProfile
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-
+from collective.ATClamAV.interfaces import IAVScanner
+from collective.ATClamAV.clamAVScanner import ScanError
 
 EICAR = """
     WDVPIVAlQEFQWzRcUFpYNTQoUF4pN0NDKTd9JEVJQ0FSLVNUQU5E
     QVJELUFOVElWSVJVUy1URVNU\nLUZJTEUhJEgrSCo=\n""".decode('base64')
 
 
-class ATClamAVFixture(PloneSandboxLayer):
+class MockAVScanner(object):
+    """Mock objects to run tests withoud clamav present.
+    """
+
+    implements(IAVScanner)
+
+    def __init__(self):
+        self.replyToPing = True
+
+    def setup(self, replyToPing=True):
+        self.replyToPing=replyToPing
+
+    def ping(self, type, **kwargs):
+        """
+        """
+        if not self.replyToPing:
+            raise ScanError('Could not ping clamd server')
+        return True
+
+    def scanBuffer(self, buffer, type, **kwargs):
+        """
+        """
+        if buffer == EICAR:
+            return 'Eicar-Test-Signature FOUND'
+        return None
+
+
+class AVFixture(PloneSandboxLayer):
 
     defaultBases = (PLONE_FIXTURE,)
 
@@ -28,9 +59,25 @@ class ATClamAVFixture(PloneSandboxLayer):
         setRoles(portal, TEST_USER_ID, ['Member'])
 
 
-ATCLAMAV_FIXTURE = ATClamAVFixture()
+AV_FIXTURE = AVFixture()
 
-ATCLAMAV_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(ATCLAMAV_FIXTURE,), name="ATClamAVFixture:Integration")
-ATCLAMAV_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(ATCLAMAV_FIXTURE,), name="ATClamAVFixture:Functional")
+
+class AVMockFixture(PloneSandboxLayer):
+
+    defaultBases = (AV_FIXTURE,)
+
+    def setUpZope(self, app, configurationContext):
+        gsm = getGlobalSiteManager()
+        gsm.registerUtility(MockAVScanner())
+
+
+AVMOCK_FIXTURE = AVMockFixture()
+
+AV_INTEGRATION_TESTING = IntegrationTesting(
+    bases=(AV_FIXTURE,), name="AVFixture:Integration")
+AV_FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(AV_FIXTURE,), name="AVFixture:Functional")
+AVMOCK_INTEGRATION_TESTING = IntegrationTesting(
+    bases=(AVMOCK_FIXTURE,), name="AVMockFixture:Integration")
+AVMOCK_FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(AVMOCK_FIXTURE,), name="AVMockFixture:Functional")
