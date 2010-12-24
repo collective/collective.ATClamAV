@@ -4,8 +4,7 @@
     i18n_domain="collective.ATClamAV">
 
     <!-- Control panel-->
-    <adapter
-      factory=".clamAVSettings.ClamAVControlPanelAdapter" />
+    <adapter factory=".clamAVSettings.ClamAVControlPanelAdapter" />
 
     <browser:page
         name="clamav_settings_controlpanel"
@@ -18,5 +17,5 @@
         name="clamavicon"
         image="clamav.ico"
         />
-    
+
 </configure>
