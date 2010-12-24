@@ -1,5 +1,7 @@
 import socket
+
 from zope.interface import implements
+
 from collective.ATClamAV.interfaces import IAVScanner
 
 

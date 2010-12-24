@@ -1,8 +1,8 @@
 import unittest
 from zope.component import getUtility
 
-from collective.ATClamAV.interfaces import IAVScanner
 from collective.ATClamAV.clamAVScanner import ScanError
+from collective.ATClamAV.interfaces import IAVScanner
 from collective.ATClamAV.testing import EICAR
 from collective.ATClamAV.tests.base import ATClamAVIntegrationTestCase
 

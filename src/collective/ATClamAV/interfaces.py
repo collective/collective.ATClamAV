@@ -1,8 +1,8 @@
 from zope.interface import Interface
 from zope import schema
-from collective.ATClamAV import ATClamAVMessageFactory as _
 from zope.schema.vocabulary import SimpleVocabulary
 
+from collective.ATClamAV import ATClamAVMessageFactory as _
 
 clamdConnectionType = SimpleVocabulary.fromItems((
     (_(u"Local UNIX Socket"), 'socket'),

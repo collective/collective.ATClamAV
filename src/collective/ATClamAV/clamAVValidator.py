@@ -1,9 +1,11 @@
-from zope.interface import implements
-from zope.component import getUtility
 from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFCore.utils import getToolByName
 from Products.validation.interfaces.IValidator import IValidator
-from collective.ATClamAV.interfaces import IAVScanner
+from zope.component import getUtility
+from zope.interface import implements
+
 from collective.ATClamAV.clamAVScanner import ScanError
+from collective.ATClamAV.interfaces import IAVScanner
 
 
 class ClamAVValidator:

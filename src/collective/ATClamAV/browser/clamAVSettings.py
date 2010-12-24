@@ -1,14 +1,13 @@
-from zope.component import adapts
-from zope.interface import implements
-from zope.formlib import form
-
+from plone.app.controlpanel.form import ControlPanelForm
+from Products.CMFCore.utils import getToolByName
 from Products.CMFDefault.formlib.schema import SchemaAdapterBase
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFCore.utils import getToolByName
+from zope.component import adapts
+from zope.formlib import form
+from zope.interface import implements
 
-from plone.app.controlpanel.form import ControlPanelForm
-from collective.ATClamAV.interfaces import IAVScannerSettings
 from collective.ATClamAV import ATClamAVMessageFactory as _
+from collective.ATClamAV.interfaces import IAVScannerSettings
 
 
 class ClamAVControlPanel(ControlPanelForm):
