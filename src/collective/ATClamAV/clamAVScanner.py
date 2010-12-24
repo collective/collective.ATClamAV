@@ -19,9 +19,6 @@ class ClamAVScanner(object):
     implements(IAVScanner)
 
     def ping(self, type, **kwargs):
-        """
-        """
-
         s = None
         timeout = kwargs.get('timeout', 10.0)
         if type=='socket':
@@ -74,7 +71,7 @@ class ClamAVScanner(object):
             s.close()
             raise ScanError('Error communicating with clamd')
 
-        n=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        n = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         n.settimeout(timeout)
 
         try:
@@ -102,7 +99,7 @@ class ClamAVScanner(object):
         finally:
             s.close()
 
-        if virusname=='OK':
+        if virusname == 'OK':
             return None
         else:
             return virusname
@@ -111,7 +108,7 @@ class ClamAVScanner(object):
         """Initialize scanner to use clamd unix local socket
         """
 
-        s=socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         s.settimeout(timeout)
         try:
             s.connect(filename)
@@ -125,7 +122,7 @@ class ClamAVScanner(object):
         """Initialize scanner to use clamd network socket
         """
 
-        s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(timeout)
         try:
             s.connect((host, port))

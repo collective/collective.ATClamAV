@@ -40,8 +40,8 @@ class ClamAVValidator:
                         socketpath=settings.clamav_socket,
                         timeout=float(settings.clamav_timeout))
             except ScanError:
-                return "There was an error while checking the file " \
-                "for viruses: Please contact your system administrator."
+                return "There was an error while checking the file for " \
+                    "viruses: Please contact your system administrator."
 
             if result:
                 return "Validation failed, file is virus-infected. (%s)" % \
