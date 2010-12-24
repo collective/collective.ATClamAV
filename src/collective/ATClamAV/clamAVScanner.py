@@ -26,13 +26,13 @@ class ClamAVScanner(object):
         timeout = kwargs.get('timeout', 10.0)
         if type=='socket':
             socketpath = kwargs.get('socketpath', '/var/run/clamd')
-            s = self.__init_unix_socket__(filename=socketpath, timeout=timeout)
+            s = self._init_unix_socket(filename=socketpath, timeout=timeout)
             host = 'localhost'
         elif type=='net':
             host = kwargs.get('host', 'localhost')
             port = kwargs.get('port', 3310)
-            s = self.__init_network_socket__(host=host, port=port,
-                                             timeout=timeout)
+            s = self._init_network_socket(host=host, port=port,
+                                          timeout=timeout)
         else:
             raise ScanError('Invalid call to ping')
 
@@ -57,13 +57,13 @@ class ClamAVScanner(object):
 
         if type=='socket':
             socketpath = kwargs.get('socketpath', '/var/run/clamd')
-            s = self.__init_unix_socket__(filename=socketpath, timeout=timeout)
+            s = self._init_unix_socket(filename=socketpath, timeout=timeout)
             host = 'localhost'
         elif type=='net':
             host = kwargs.get('host', 'localhost')
             port = kwargs.get('port', 3310)
-            s = self.__init_network_socket__(host=host, port=port,
-                                             timeout=timeout)
+            s = self._init_network_socket(host=host, port=port,
+                                          timeout=timeout)
         else:
             raise ScanError('Invalid call to scanBuffer')
 
@@ -107,7 +107,7 @@ class ClamAVScanner(object):
         else:
             return virusname
 
-    def __init_unix_socket__(self, filename="/var/run/clamd", timeout=120.0):
+    def _init_unix_socket(self, filename="/var/run/clamd", timeout=120.0):
         """Initialize scanner to use clamd unix local socket
         """
 
@@ -120,7 +120,7 @@ class ClamAVScanner(object):
                             filename)
         return s
 
-    def __init_network_socket__(self, host="localhost", port=3310,
+    def _init_network_socket(self, host="localhost", port=3310,
                                 timeout=120.0):
         """Initialize scanner to use clamd network socket
         """
