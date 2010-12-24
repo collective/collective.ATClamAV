@@ -31,7 +31,6 @@ setup(name='collective.ATClamAV',
           'setuptools',
           'archetypes.schemaextender',
           'plone.app.testing',
-          # -*- Extra requirements: -*-
       ],
       entry_points="""
       [z3c.autoinclude.plugin]
