@@ -65,7 +65,7 @@ class TestScanner(ATClamAVIntegrationTestCase):
         self.assertRaises(
             ScanError,
             self.scanner.scanBuffer,
-            ('Not a virus',),
+            ('Not a virus', ),
             {'type': 'net', 'timeout': 1.0e-16})
 
     def test_unix_socket_scanBuffer(self):
@@ -88,7 +88,7 @@ class TestScanner(ATClamAVIntegrationTestCase):
         self.assertRaises(
             ScanError,
             self.scanner.scanBuffer,
-            ('Not a virus',),
+            ('Not a virus', ),
             {'type': 'socket',
              'socketpath': '/tmp/clamd.socket',
              'timeout': 1.0e-16})

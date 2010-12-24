@@ -46,7 +46,7 @@ class MockAVScanner(object):
 
 class AVFixture(PloneSandboxLayer):
 
-    defaultBases = (PLONE_FIXTURE,)
+    defaultBases = (PLONE_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
         import collective.ATClamAV
@@ -65,7 +65,7 @@ AV_FIXTURE = AVFixture()
 
 class AVMockFixture(PloneSandboxLayer):
 
-    defaultBases = (AV_FIXTURE,)
+    defaultBases = (AV_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
         gsm = getGlobalSiteManager()
@@ -75,10 +75,10 @@ class AVMockFixture(PloneSandboxLayer):
 AVMOCK_FIXTURE = AVMockFixture()
 
 AV_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(AV_FIXTURE,), name="AVFixture:Integration")
+    bases=(AV_FIXTURE, ), name="AVFixture:Integration")
 AV_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(AV_FIXTURE,), name="AVFixture:Functional")
+    bases=(AV_FIXTURE, ), name="AVFixture:Functional")
 AVMOCK_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(AVMOCK_FIXTURE,), name="AVMockFixture:Integration")
+    bases=(AVMOCK_FIXTURE, ), name="AVMockFixture:Integration")
 AVMOCK_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(AVMOCK_FIXTURE,), name="AVMockFixture:Functional")
+    bases=(AVMOCK_FIXTURE, ), name="AVMockFixture:Functional")
