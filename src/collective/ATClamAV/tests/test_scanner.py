@@ -1,4 +1,3 @@
-import unittest
 from zope.component import getUtility
 
 from collective.ATClamAV.clamAVScanner import ScanError
@@ -92,12 +91,3 @@ class TestScanner(ATClamAVIntegrationTestCase):
             {'type': 'socket',
              'socketpath': '/tmp/clamd.socket',
              'timeout': 1.0e-16})
-
-
-def test_suite():
-    """This sets up a test suite that actually runs the tests in the class
-    above
-    """
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestScanner))
-    return suite

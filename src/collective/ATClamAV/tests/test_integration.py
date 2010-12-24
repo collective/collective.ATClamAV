@@ -1,7 +1,8 @@
-import unittest2 as unittest
 from StringIO import StringIO
+
 from collective.ATClamAV.testing import EICAR
 from collective.ATClamAV.tests import base
+
 
 class TestIntegration(base.ATClamAVMockFunctionalTestCase):
 
@@ -25,12 +26,3 @@ class TestIntegration(base.ATClamAVMockFunctionalTestCase):
         control.value = StringIO('Not a virus')
         browser.getControl('Save').click()
         self.failIf('Changes saved' not in browser.contents)
-
-
-def test_suite():
-    """This sets up a test suite that actually runs the tests in the class
-    above
-    """
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestIntegration))
-    return suite
