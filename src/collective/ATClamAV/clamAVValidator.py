@@ -21,7 +21,8 @@ class ClamAVValidator:
             # 'ZPublisher.HTTPRequest.FileUpload'
 
             siteroot = getUtility(ISiteRoot)
-            settings = siteroot.portal_properties.clamav_properties
+            ptool = getToolByName(siteroot, 'portal_properties')
+            settings = ptool.clamav_properties
             scanner = getUtility(IAVScanner)
 
             value.seek(0)
