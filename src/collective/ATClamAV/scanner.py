@@ -122,10 +122,8 @@ class ClamAVScanner(object):
         """Initialize scanner to use clamd network socket
         """
 
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(timeout)
         try:
-            s.connect((host, port))
+            s = socket.create_connection((host, port), timeout=timeout)
         except socket.error:
             raise ScanError('Could not reach clamd on network (%s:%s)' % \
                             (host, port))
