@@ -37,7 +37,7 @@ class ClamAVScanner(object):
             s.send('PING')
             result = s.recv(20000)
             s.close()
-        except:
+        except socket.error:
             raise ScanError('Could not ping clamd server')
 
         if result=='PONG\n':
