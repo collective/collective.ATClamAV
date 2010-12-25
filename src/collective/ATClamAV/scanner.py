@@ -67,7 +67,7 @@ class ClamAVScanner(object):
         try:
             s.send('STREAM')
             sport = int(s.recv(200).strip().split(' ')[1])
-        except (socket.error, socket.timeout):
+        except socket.error:
             s.close()
             raise ScanError('Error communicating with clamd')
 
