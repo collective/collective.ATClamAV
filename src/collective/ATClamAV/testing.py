@@ -10,7 +10,7 @@ from zope.configuration import xmlconfig
 from zope.interface import implements
 
 from collective.ATClamAV.interfaces import IAVScanner
-from collective.ATClamAV.clamAVScanner import ScanError
+from collective.ATClamAV.scanner import ScanError
 
 EICAR = """
     WDVPIVAlQEFQWzRcUFpYNTQoUF4pN0NDKTd9JEVJQ0FSLVNUQU5E
