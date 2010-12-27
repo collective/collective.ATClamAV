@@ -1,8 +1,7 @@
-import unittest
 from zope.component import getUtility
 
 from collective.ATClamAV.interfaces import IAVScanner
-from collective.ATClamAV.clamAVScanner import ScanError
+from collective.ATClamAV.scanner import ScanError
 from collective.ATClamAV.testing import EICAR
 from collective.ATClamAV.tests.base import ATClamAVIntegrationTestCase
 
@@ -65,7 +64,7 @@ class TestScanner(ATClamAVIntegrationTestCase):
         self.assertRaises(
             ScanError,
             self.scanner.scanBuffer,
-            ('Not a virus',),
+            ('Not a virus', ),
             {'type': 'net', 'timeout': 1.0e-16})
 
     def test_unix_socket_scanBuffer(self):
@@ -88,16 +87,7 @@ class TestScanner(ATClamAVIntegrationTestCase):
         self.assertRaises(
             ScanError,
             self.scanner.scanBuffer,
-            ('Not a virus',),
+            ('Not a virus', ),
             {'type': 'socket',
              'socketpath': '/tmp/clamd.socket',
              'timeout': 1.0e-16})
-
-
-def test_suite():
-    """This sets up a test suite that actually runs the tests in the class
-    above
-    """
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestScanner))
-    return suite

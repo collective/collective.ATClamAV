@@ -1,16 +1,15 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="qi.jabberHelpdesk">
+    i18n_domain="collective.ATClamAV">
 
     <!-- Control panel-->
-    <adapter
-      factory=".clamAVSettings.ClamAVControlPanelAdapter" />
+    <adapter factory=".settings.ClamAVControlPanelAdapter" />
 
     <browser:page
         name="clamav_settings_controlpanel"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        class=".clamAVSettings.ClamAVControlPanel"
+        class=".settings.ClamAVControlPanel"
         permission="cmf.ManagePortal"
         />
 
@@ -18,5 +17,5 @@
         name="clamavicon"
         image="clamav.ico"
         />
-    
+
 </configure>

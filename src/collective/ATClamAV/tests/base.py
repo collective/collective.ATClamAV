@@ -1,7 +1,8 @@
-import unittest2 as unittest
-from plone.testing.z2 import Browser
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.testing.z2 import Browser
+import unittest2 as unittest
+
 from collective.ATClamAV import testing
 
 

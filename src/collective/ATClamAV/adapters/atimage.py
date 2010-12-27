@@ -1,12 +1,12 @@
-from zope.component import adapts
-from zope.interface import implements
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from plone.app.blob.subtypes.image import ExtensionBlobField
 from Products.Archetypes.atapi import ImageWidget, AnnotationStorage
 from Products.ATContentTypes.configuration import zconf
 from Products.ATContentTypes.interfaces.image import IATImage
-from Products.validation import V_REQUIRED
 from Products.ATContentTypes import ATCTMessageFactory as _
+from Products.validation import V_REQUIRED
+from zope.component import adapts
+from zope.interface import implements
 
 
 class VirusFreeATImageExtender(object):

@@ -4,7 +4,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="collective.ATClamAV">
 
-    <utility factory=".clamAVScanner.ClamAVScanner" />
+    <utility factory=".scanner.ClamAVScanner" />
     <include package=".adapters" />
     <include package=".browser" />
 

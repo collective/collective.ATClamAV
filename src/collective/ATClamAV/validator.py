@@ -1,9 +1,11 @@
-from zope.interface import implements
-from zope.component import getUtility
 from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFCore.utils import getToolByName
 from Products.validation.interfaces.IValidator import IValidator
+from zope.component import getUtility
+from zope.interface import implements
+
 from collective.ATClamAV.interfaces import IAVScanner
-from collective.ATClamAV.clamAVScanner import ScanError
+from collective.ATClamAV.scanner import ScanError
 
 
 class ClamAVValidator:
@@ -19,7 +21,8 @@ class ClamAVValidator:
             # 'ZPublisher.HTTPRequest.FileUpload'
 
             siteroot = getUtility(ISiteRoot)
-            settings = siteroot.portal_properties.clamav_properties
+            ptool = getToolByName(siteroot, 'portal_properties')
+            settings = ptool.clamav_properties
             scanner = getUtility(IAVScanner)
 
             value.seek(0)
@@ -37,8 +40,8 @@ class ClamAVValidator:
                         socketpath=settings.clamav_socket,
                         timeout=float(settings.clamav_timeout))
             except ScanError:
-                return "There was an error while checking the file " \
-                "for viruses: Please contact your system administrator."
+                return "There was an error while checking the file for " \
+                    "viruses: Please contact your system administrator."
 
             if result:
                 return "Validation failed, file is virus-infected. (%s)" % \

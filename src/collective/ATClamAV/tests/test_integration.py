@@ -1,6 +1,6 @@
 from os.path import dirname, join
-import unittest2 as unittest
 from StringIO import StringIO
+
 from collective.ATClamAV.testing import EICAR
 from collective.ATClamAV.tests import base
 from collective.ATClamAV import tests
@@ -34,7 +34,6 @@ class TestIntegration(base.ATClamAVMockFunctionalTestCase):
         browser.getControl('Save').click()
         self.failIf('Changes saved' not in browser.contents)
 
-
     def test_atvirusimage(self):
         # Test if a virus-infected image gets caught by the validator
         image_data = getFileData('image.png')
@@ -55,12 +54,3 @@ class TestIntegration(base.ATClamAVMockFunctionalTestCase):
         control.value = StringIO(image_data)
         browser.getControl('Save').click()
         self.failIf('Changes saved' not in browser.contents)
-
-
-def test_suite():
-    """This sets up a test suite that actually runs the tests in the class
-    above
-    """
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestIntegration))
-    return suite

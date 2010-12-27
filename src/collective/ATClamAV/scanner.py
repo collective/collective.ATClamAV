@@ -1,5 +1,7 @@
 import socket
+
 from zope.interface import implements
+
 from collective.ATClamAV.interfaces import IAVScanner
 
 
@@ -17,20 +19,17 @@ class ClamAVScanner(object):
     implements(IAVScanner)
 
     def ping(self, type, **kwargs):
-        """
-        """
-
         s = None
         timeout = kwargs.get('timeout', 10.0)
         if type=='socket':
             socketpath = kwargs.get('socketpath', '/var/run/clamd')
-            s = self.__init_unix_socket__(filename=socketpath, timeout=timeout)
+            s = self._init_unix_socket(filename=socketpath, timeout=timeout)
             host = 'localhost'
         elif type=='net':
             host = kwargs.get('host', 'localhost')
             port = kwargs.get('port', 3310)
-            s = self.__init_network_socket__(host=host, port=port,
-                                             timeout=timeout)
+            s = self._init_network_socket(host=host, port=port,
+                                          timeout=timeout)
         else:
             raise ScanError('Invalid call to ping')
 
@@ -38,7 +37,7 @@ class ClamAVScanner(object):
             s.send('PING')
             result = s.recv(20000)
             s.close()
-        except:
+        except socket.error:
             raise ScanError('Could not ping clamd server')
 
         if result=='PONG\n':
@@ -55,30 +54,30 @@ class ClamAVScanner(object):
 
         if type=='socket':
             socketpath = kwargs.get('socketpath', '/var/run/clamd')
-            s = self.__init_unix_socket__(filename=socketpath, timeout=timeout)
+            s = self._init_unix_socket(filename=socketpath, timeout=timeout)
             host = 'localhost'
         elif type=='net':
             host = kwargs.get('host', 'localhost')
             port = kwargs.get('port', 3310)
-            s = self.__init_network_socket__(host=host, port=port,
-                                             timeout=timeout)
+            s = self._init_network_socket(host=host, port=port,
+                                          timeout=timeout)
         else:
             raise ScanError('Invalid call to scanBuffer')
 
         try:
             s.send('STREAM')
             sport = int(s.recv(200).strip().split(' ')[1])
-        except (socket.error, socket.timeout):
+        except socket.error:
             s.close()
             raise ScanError('Error communicating with clamd')
 
-        n=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        n = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         n.settimeout(timeout)
 
         try:
             n.connect((host, sport))
             sended = n.send(buffer)
-        except (socket.error, socket.timeout):
+        except socket.error:
             s.close()
             raise ScanError('Error communicating with clamd')
         finally:
@@ -95,39 +94,37 @@ class ClamAVScanner(object):
                     virusname = result.strip().split(':')[1].strip()
                     if virusname[-5:]=='ERROR':
                         raise ScanError(virusname)
-        except (socket.error, socket.timeout):
+        except socket.error:
             raise ScanError('Error communicating with clamd')
         finally:
             s.close()
 
-        if virusname=='OK':
+        if virusname == 'OK':
             return None
         else:
             return virusname
 
-    def __init_unix_socket__(self, filename="/var/run/clamd", timeout=120.0):
+    def _init_unix_socket(self, filename="/var/run/clamd", timeout=120.0):
         """Initialize scanner to use clamd unix local socket
         """
 
-        s=socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         s.settimeout(timeout)
         try:
             s.connect(filename)
-        except (socket.error, socket.timeout):
+        except socket.error:
             raise ScanError('Could not reach clamd using unix socket (%s)' % \
                             filename)
         return s
 
-    def __init_network_socket__(self, host="localhost", port=3310,
+    def _init_network_socket(self, host="localhost", port=3310,
                                 timeout=120.0):
         """Initialize scanner to use clamd network socket
         """
 
-        s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(timeout)
         try:
-            s.connect((host, port))
-        except (socket.error, socket.timeout):
+            s = socket.create_connection((host, port), timeout=timeout)
+        except socket.error:
             raise ScanError('Could not reach clamd on network (%s:%s)' % \
                             (host, port))
         return s

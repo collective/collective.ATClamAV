@@ -1,11 +1,11 @@
-from zope.component import adapts
-from zope.interface import implements
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from plone.app.blob.subtypes.file import ExtensionBlobField
 from Products.Archetypes.atapi import FileWidget, AnnotationStorage
+from Products.ATContentTypes import ATCTMessageFactory as _
 from Products.ATContentTypes.interface import IATFile
 from Products.validation import V_REQUIRED
-from Products.ATContentTypes import ATCTMessageFactory as _
+from zope.component import adapts
+from zope.interface import implements
 
 
 class VirusFreeATFileExtender(object):

@@ -1,14 +1,13 @@
 from setuptools import setup, find_packages
-import os
 
 version = '1.0'
 
 setup(name='collective.ATClamAV',
       version=version,
-      description="A product  providing ClamAV antivirus integration for AT-based content types",
+      description="Provides ClamAV antivirus integration for Archetypes based "
+          "content types",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+                       open("CHANGES.txt").read(),
       classifiers=[
           'Environment :: Web Environment',
           'Framework :: Plone',
@@ -16,7 +15,6 @@ setup(name='collective.ATClamAV',
           'License :: OSI Approved :: GNU General Public License (GPL)',
           'Operating System :: OS Independent',
           'Programming Language :: Python',
-          'Topic :: Software Development :: Libraries :: Python Modules',      
         ],
       keywords='plone antivirus archetypes',
       author='Yiorgis Gozadinos',
@@ -32,8 +30,20 @@ setup(name='collective.ATClamAV',
       install_requires=[
           'setuptools',
           'archetypes.schemaextender',
+          'plone.app.blob',
+          'plone.app.controlpanel',
           'plone.app.testing',
-          # -*- Extra requirements: -*-
+          'Products.Archetypes',
+          'Products.ATContentTypes',
+          'Products.CMFCore',
+          'Products.CMFDefault',
+          'Products.validation',
+          'unittest2',
+          'zope.component',
+          'zope.formlib',
+          'zope.i18nmessageid',
+          'zope.interface',
+          'zope.schema',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]
