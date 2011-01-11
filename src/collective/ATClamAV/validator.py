@@ -20,6 +20,10 @@ class ClamAVValidator:
             # when submitted a new file 'value' is a
             # 'ZPublisher.HTTPRequest.FileUpload'
 
+            if getattr(value, '_validate_isVirusFree', False):
+                # validation is called multiple times for the same file upload
+                return True
+
             siteroot = getUtility(ISiteRoot)
             ptool = getToolByName(siteroot, 'portal_properties')
             settings = ptool.clamav_properties
@@ -49,7 +53,9 @@ class ClamAVValidator:
                 return "Validation failed, file is virus-infected. (%s)" % \
                     (result)
             else:
-                return 1
+                # mark the file upload instance as already checked
+                value._validate_isVirusFree = True
+                return True
         else:
             # if we keeped existing file
-            return 1
+            return True
