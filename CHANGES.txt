@@ -4,6 +4,12 @@ Changelog
 1.0 - Unreleased
 ----------------
 
+- Reengineering to support images.
+  [hannosch]
+
+- Plone 4 compatibility.
+  [ggozad, hannosch]
+
 - pep-8
   [ggozad]
 
