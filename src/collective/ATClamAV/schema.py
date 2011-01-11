@@ -6,8 +6,6 @@ from zope.interface import implements
 
 
 class VirusFreeModifier(object):
-    """
-    """
     implements(ISchemaModifier)
 
     def __init__(self, context):
