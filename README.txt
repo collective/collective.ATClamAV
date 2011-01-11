@@ -6,9 +6,8 @@ Introduction
 
 ``collective.ATClamAV`` aims at providing antivirus integration to Plone
 sites. It does that by defining a validator that can be used with any content
-type that uses File or Image field(s). At the moment the open-source
-`Clam Antivirus`_  is supported. Clam Antivirus is available for all
-platforms.
+type that uses File or Image field(s). The open-source `Clam Antivirus`_  is
+supported which is available for all platforms.
 
 Usage
 -----
@@ -38,7 +37,7 @@ need to add the *isVirusFree* validator to your FileField(s). For instance:
 Testing
 -------
 By default tests mock ``clamd`` and do not require it being installed. If you
-want to test your setup as well, run tests on all levels i.e.
+want to test your ``clamd`` setup as well, run tests on all levels i.e.
 
 ::
 
