@@ -5,8 +5,15 @@
     i18n_domain="collective.ATClamAV">
 
     <utility factory=".scanner.ClamAVScanner" />
-    <include package=".adapters" />
     <include package=".browser" />
+
+    <adapter
+      name="collective.ATClamAV.file"
+      factory=".schema.VirusFreeATFileModifier" />
+
+    <adapter
+      name="collective.ATClamAV.image"
+      factory=".schema.VirusFreeATImageModifier" />
 
     <genericsetup:registerProfile
       name="default"
