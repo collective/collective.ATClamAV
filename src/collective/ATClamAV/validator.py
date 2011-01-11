@@ -26,6 +26,8 @@ class ClamAVValidator:
             scanner = getUtility(IAVScanner)
 
             value.seek(0)
+            # TODO this reads the entire file into memory, there should be
+            # a smarter way to do this
             content = value.read()
             result = ''
             try:
