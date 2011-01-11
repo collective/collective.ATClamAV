@@ -57,5 +57,5 @@ class ClamAVValidator:
                 value._validate_isVirusFree = True
                 return True
         else:
-            # if we keeped existing file
+            # if we kept existing file
             return True
