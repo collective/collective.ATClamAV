@@ -7,10 +7,10 @@
 
     <adapter
       name="collective.ATClamAV.file"
-      factory=".atfile.VirusFreeATFileExtender" />
+      factory=".atfile.VirusFreeATFileModifier" />
 
     <adapter
       name="collective.ATClamAV.image"
-      factory=".atimage.VirusFreeATImageExtender" />
+      factory=".atimage.VirusFreeATImageModifier" />
 
 </configure>
