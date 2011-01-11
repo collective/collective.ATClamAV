@@ -32,7 +32,7 @@ class TestIntegration(base.ATClamAVMockFunctionalTestCase):
         control.filename = 'nonvirus.txt'
         control.value = StringIO('Not a virus')
         browser.getControl('Save').click()
-        self.failIf('Changes saved' not in browser.contents)
+        self.assertTrue('Changes saved' in browser.contents)
 
     def test_atvirusimage(self):
         # Test if a virus-infected image gets caught by the validator
@@ -46,11 +46,12 @@ class TestIntegration(base.ATClamAVMockFunctionalTestCase):
         control.value = StringIO(image_data + EICAR)
         browser.getControl('Save').click()
 
-        self.failIf('Eicar-Test-Signature FOUND' not in browser.contents)
+        self.assertFalse('Changes saved' in browser.contents)
+        self.assertTrue('Eicar-Test-Signature FOUND' in browser.contents)
 
         # And let's see if a clean file passes...
         control = browser.getControl(name='image_file')
         control.filename = 'nonvirus.png'
         control.value = StringIO(image_data)
         browser.getControl('Save').click()
-        self.failIf('Changes saved' not in browser.contents)
+        self.assertTrue('Changes saved' in browser.contents)
