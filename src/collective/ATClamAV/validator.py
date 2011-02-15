@@ -1,3 +1,6 @@
+import logging
+
+import Globals
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from Products.validation.interfaces.IValidator import IValidator
@@ -6,6 +9,8 @@ from zope.interface import implements
 
 from collective.ATClamAV.interfaces import IAVScanner
 from collective.ATClamAV.scanner import ScanError
+
+logger = logging.getLogger('collective.ATClamAV')
 
 
 class ClamAVValidator:
@@ -16,6 +21,10 @@ class ClamAVValidator:
         self.name = name
 
     def __call__(self, value, *args, **kwargs):
+        if Globals.DevelopmentMode: # pragma: no cover
+            logger.warn('Skipping virus scan in development mode.')
+            return True
+
         if hasattr(value, 'seek'):
             # when submitted a new file 'value' is a
             # 'ZPublisher.HTTPRequest.FileUpload'

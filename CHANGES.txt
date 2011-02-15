@@ -4,7 +4,9 @@ Changelog
 1.1 - unreleased
 ----------------
 
-
+- Disable virus validator during debug mode but log a warning. This allows
+  local development to take place without having clamav installed.
+  [hannosch]
 
 1.0 - 2011-01-11
 ----------------
