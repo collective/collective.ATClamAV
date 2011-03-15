@@ -1,3 +1,5 @@
-.coverage
+.*
+*.pyc
 bin
 htmlcov
+/src/*.egg-info
