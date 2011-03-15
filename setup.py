@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.2'
+version = '1.3dev'
 
 setup(name='collective.ATClamAV',
       version=version,
