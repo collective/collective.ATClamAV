@@ -88,11 +88,11 @@ class ClamAVScanner(object):
 
         result='...'
         try:
-            while result!='':
+            while result != '':
                 result = s.recv(20000)
-                if len(result)>0:
+                if len(result) > 0:
                     virusname = result.strip().split(':')[1].strip()
-                    if virusname[-5:]=='ERROR':
+                    if virusname[-5:] == 'ERROR':
                         raise ScanError(virusname)
         except socket.error:
             raise ScanError('Error communicating with clamd')
