@@ -76,15 +76,12 @@ class ClamAVScanner(object):
 
         try:
             n.connect((host, sport))
-            sended = n.send(buffer)
+            n.sendall(buffer)
         except socket.error:
             s.close()
             raise ScanError('Error communicating with clamd')
         finally:
             n.close()
-
-        if sended<len(buffer):
-            raise ScanError('BufferTooLong')
 
         result='...'
         try:

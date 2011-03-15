@@ -4,6 +4,9 @@ Changelog
 1.2 - unreleased
 ----------------
 
+- Sent all data over the socket instead of only the first buffer.
+  [hannosch]
+
 - Added error logging for failed scans.
   [hannosch]
 
