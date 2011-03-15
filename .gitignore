@@ -1,5 +1,6 @@
 .*
 *.pyc
 bin
+dist
 htmlcov
 /src/*.egg-info
