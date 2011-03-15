@@ -54,7 +54,8 @@ class ClamAVValidator:
                     result = scanner.scanBuffer(content, 'socket',
                         socketpath=settings.clamav_socket,
                         timeout=float(settings.clamav_timeout))
-            except ScanError:
+            except ScanError as e:
+                logger.error('ScanError %s on %s.' % (e, value.filename))
                 return "There was an error while checking the file for " \
                     "viruses: Please contact your system administrator."
 
