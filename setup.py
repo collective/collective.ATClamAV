@@ -44,6 +44,8 @@ setup(name='collective.ATClamAV',
           'zope.i18nmessageid',
           'zope.interface',
           'zope.schema',
+          'six',
+          'clamd>=1.0.0',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]
