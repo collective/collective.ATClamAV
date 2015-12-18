@@ -23,7 +23,7 @@ def _make_clamd(type, **kwargs):
     elif type == 'net':
         host = kwargs.get('host', 'localhost')
         port = kwargs.get('port', 3310)
-        return clamd.ClamdUnixSocket(host=host, port=port, timeout=timeout)
+        return clamd.ClamdNetworkSocket(host=host, port=port, timeout=timeout)
     else:
         raise ScanError('Invalid call')
 
